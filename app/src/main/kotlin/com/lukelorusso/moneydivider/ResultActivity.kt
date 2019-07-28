@@ -95,7 +95,7 @@ class ResultActivity : AppCompatActivity() {
             }
         }
 
-        val marginErrorOutput = if (error != BigDecimal.ZERO)
+        val marginErrorOutput = if (error.compareTo(BigDecimal.ZERO) != 0)
             getString(R.string.result_division_margin_error, error)
         else
             ""
