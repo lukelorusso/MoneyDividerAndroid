@@ -8,4 +8,5 @@
     <string name="result_repartition">"\n\n---\nRipartizione:\n"</string>
     <string name="result_give_suffix">" (dare)"</string>
     <string name="result_take_suffix">" (avere)"</string>
+    <string name="result_division_margin_error">"\nmargine d'errore per la divisione: %s"</string>
 </resources>
