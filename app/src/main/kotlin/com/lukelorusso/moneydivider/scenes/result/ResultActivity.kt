@@ -1,4 +1,4 @@
-package com.lukelorusso.moneydivider
+package com.lukelorusso.moneydivider.scenes.result
 
 import android.content.Context
 import android.content.Intent
@@ -6,28 +6,35 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.Gson
+import com.lukelorusso.moneydivider.R
+import com.lukelorusso.moneydivider.extensions.fromJson
+import com.lukelorusso.moneydivider.mapper.BalanceMapper
+import com.lukelorusso.moneydivider.models.Constant
+import com.lukelorusso.moneydivider.models.Transaction
 import kotlinx.android.synthetic.main.activity_result.*
-import java.math.BigDecimal
 
 class ResultActivity : AppCompatActivity() {
 
     companion object {
-        private const val EXTRA_TOTAL_MAP = "EXTRA_TOTAL_MAP"
         private const val EXTRA_TRANSACTION_LIST = "EXTRA_TRANSACTION_LIST"
 
-        fun newIntent(context: Context, totalMap: HashMap<String, BigDecimal>, transactionList: ArrayList<String>): Intent =
+        fun newIntent(
+            context: Context,
+            gson: Gson,
+            transactionList: ArrayList<Transaction>
+        ): Intent =
             Intent(context, ResultActivity::class.java).apply {
-                putExtra(EXTRA_TOTAL_MAP, totalMap)
-                putExtra(EXTRA_TRANSACTION_LIST, transactionList)
+                putExtra(EXTRA_TRANSACTION_LIST, gson.toJson(transactionList))
             }
     }
 
+    private val gson = Gson()
+
     // Properties
-    private val totalMap by lazy {
-        @Suppress("UNCHECKED_CAST")
-        intent.getSerializableExtra(EXTRA_TOTAL_MAP) as HashMap<String, BigDecimal>? ?: hashMapOf()
+    private val transactionList by lazy {
+        intent.getStringExtra(EXTRA_TRANSACTION_LIST).let { gson.fromJson<List<Transaction>>(it) }
     }
-    //private val transactionList by lazy { intent.getStringArrayListExtra(EXTRA_TRANSACTION_LIST) ?: arrayListOf() }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle toolbar back arrow click here
@@ -49,12 +56,23 @@ class ResultActivity : AppCompatActivity() {
 
     private fun initView() {
         Handler().post {
-            val result = elaborate()
+            val result = showResult()
             resultTextOutput.setText(result)
         }
     }
 
-    private fun elaborate(): String {
+    private fun showResult(): String {
+        var output = ""
+
+        output += "${getString(R.string.result_repartition)}\n${Constant.Message.SEPARATOR}\n\n"
+        BalanceMapper().map(transactionList)?.forEach { line ->
+            output += "${line.replace(Constant.Message.OWES, getString(R.string.result_owes))}\n"
+        }
+
+        return output
+    }
+
+    /*private fun elaborate(): String {
         var total = BigDecimal.ZERO
 
         totalMap.values.forEach { value -> total = total.add(value) } // filling total
@@ -64,7 +82,7 @@ class ResultActivity : AppCompatActivity() {
             BigDecimal.ROUND_CEILING
         ) else BigDecimal.ZERO // division of total by person number
 
-        val totalOutput = getString(R.string.result_total, total)
+        val totalOutput = getString(R.string.result_total, total) // TODO
         supportActionBar?.title = totalOutput
 
         var totalDividedOutput = ""
@@ -105,6 +123,6 @@ class ResultActivity : AppCompatActivity() {
                 repartitionOutput +
                 marginErrorOutput +
                 "\n"
-    }
+    }*/
 
 }

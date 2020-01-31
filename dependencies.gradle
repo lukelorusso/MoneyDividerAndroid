@@ -23,4 +23,8 @@ ext {
     androidAppCompatXVersion    = '1.0.2'
     androidXAppCompat           = "androidx.appcompat:appcompat:$androidAppCompatXVersion"
 
+    // GSON
+    gsonVersion                 = '2.8.6'
+    gson                        = "com.google.code.gson:gson:$gsonVersion"
+
 }

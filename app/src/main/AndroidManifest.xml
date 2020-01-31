@@ -12,7 +12,7 @@
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
         <activity
-                android:name=".MainActivity"
+                android:name=".scenes.home.HomeActivity"
                 android:theme="@style/AppThemeCustomActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".ResultActivity"
+                android:name=".scenes.result.ResultActivity"
                 android:theme="@style/AppThemeCustomActionBar"/>
     </application>
 

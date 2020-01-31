@@ -4,9 +4,6 @@
     <string name="divide">"Dividi"</string>
     <string name="result_total">"Totale: %s"</string>
     <string name="result_total_amount_person">"\nCosto totale a persona: %s"</string>
-    <string name="result_details">"\n\n---\nDettaglio:\n"</string>
-    <string name="result_repartition">"\n\n---\nRipartizione:\n"</string>
-    <string name="result_give_suffix">" (dare)"</string>
-    <string name="result_take_suffix">" (avere)"</string>
-    <string name="result_division_margin_error">"\nmargine d'errore per la divisione: %s"</string>
+    <string name="result_repartition">"Ripartizione:"</string>
+    <string name="result_owes">"deve a"</string>
 </resources>
