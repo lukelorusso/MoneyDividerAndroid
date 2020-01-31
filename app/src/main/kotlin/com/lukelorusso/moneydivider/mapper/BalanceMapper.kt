@@ -14,7 +14,7 @@ class BalanceMapper {
      * @param transactionList to be analysed.
      * @return a [List] of [String] as a balance log if successfully mapped, null otherwise
      */
-    fun map(transactionList: List<Transaction>): List<String>? {
+    fun mapBalance(transactionList: List<Transaction>): List<String>? {
         val balanceLog = mutableListOf<String>()
         val participantSituationMap = mapParticipantSituation(transactionList)
         val refundList = mutableListOf<BalanceRefund>()
@@ -23,8 +23,7 @@ class BalanceMapper {
 
         refundList.forEach { refund ->
             // formatting value
-            val value = BigDecimal(refund.value)
-                .setScale(2, RoundingMode.HALF_EVEN)
+            val value = BigDecimal(refund.value).setScale(2, RoundingMode.HALF_EVEN)
 
             // formatting output message
             balanceLog.add("${refund.senderSubject} ${Constant.Message.OWES} ${refund.receiverSubject} $value")
@@ -54,7 +53,7 @@ class BalanceMapper {
      * @param transactionList to be analysed.
      * @return a [Map] for each participant with his/her negative (credit) or positive (debit) [Double] amount
      */
-    private fun mapParticipantSituation(transactionList: List<Transaction>): MutableMap<String, Double> {
+    fun mapParticipantSituation(transactionList: List<Transaction>): MutableMap<String, Double> {
         val participantList = mapAllParticipants(transactionList)
         val participantSituationMap = mutableMapOf<String, Double>()
         transactionList.forEach { transaction ->

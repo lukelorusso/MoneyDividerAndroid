@@ -2,8 +2,11 @@
     <string name="app_name">"Traffico Illecito"</string>
     <string name="put_your_data">"<i>Incolla i conti!</i>\n$importo $persona $descrizione_opzionale"</string>
     <string name="divide">"Dividi"</string>
-    <string name="result_total">"Totale: %s"</string>
-    <string name="result_total_amount_person">"\nCosto totale a persona: %s"</string>
+    <string name="result_total">"Totale speso: %s"</string>
+    <string name="result_total_per_person">"Spesa totale per persona:"</string>
+    <string name="result_amount_per_person">"Situazione per persona:"</string>
     <string name="result_repartition">"Ripartizione:"</string>
+    <string name="result_give_suffix">"(dare)"</string>
+    <string name="result_take_suffix">"(avere)"</string>
     <string name="result_owes">"deve a"</string>
 </resources>
