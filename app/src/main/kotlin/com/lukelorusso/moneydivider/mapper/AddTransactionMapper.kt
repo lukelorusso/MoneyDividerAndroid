@@ -5,7 +5,7 @@ import com.lukelorusso.moneydivider.models.Constant
 import com.lukelorusso.moneydivider.models.Group
 import com.lukelorusso.moneydivider.models.Transaction
 
-class AddTransactionMapper {
+open class AddTransactionMapper {
     /**
      * Try to map the input to a [Transaction] (or "expense") object.
      * @param messageTimestamp the timestamp as [Long] of 13 positions, mapped by ambrogio.
