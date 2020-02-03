@@ -2,6 +2,7 @@
     <string name="app_name">"Diviseur d'argent"</string>
     <string name="put_your_data">"<i>Mettez vos dépenses!</i>\n$montant $prenom description_optionnelle"</string>
     <string name="divide">"Diviser"</string>
+    <string name="result">"Résultat"</string>
     <string name="result_total">"Dépense totale: %s"</string>
     <string name="result_total_per_person">"Dépense totale par personne:"</string>
     <string name="result_amount_per_person">"Situation par personne:"</string>

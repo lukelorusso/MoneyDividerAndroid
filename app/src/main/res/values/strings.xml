@@ -2,6 +2,7 @@
     <string name="app_name">"Money Divider"</string>
     <string name="put_your_data">"<i>Put your resume!</i>\n$amount $person $description_optional"</string>
     <string name="divide">"Divide"</string>
+    <string name="result">"Result"</string>
     <string name="result_total">"Total: %s"</string>
     <string name="result_total_per_person">"Total expense per person:"</string>
     <string name="result_amount_per_person">"Situation per person:"</string>

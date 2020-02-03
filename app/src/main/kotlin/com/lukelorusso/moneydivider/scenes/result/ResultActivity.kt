@@ -9,8 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.lukelorusso.moneydivider.R
 import com.lukelorusso.moneydivider.extensions.fromJson
-import com.lukelorusso.moneydivider.mapper.BalanceMapper
-import com.lukelorusso.moneydivider.models.Constant
+import com.lukelorusso.moneydivider.extensions.onScrollFinishedListener
 import com.lukelorusso.moneydivider.models.Transaction
 import kotlinx.android.synthetic.main.activity_result.*
 import java.math.BigDecimal
@@ -43,6 +42,7 @@ class ResultActivity : AppCompatActivity() {
     private val totalMap by lazy {
         intent.getStringExtra(EXTRA_TOTAL_MAP).let { gson.fromJson<Map<String, Double>>(it) }
     }
+    private var total = 0.0
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle toolbar back arrow click here
@@ -72,96 +72,24 @@ class ResultActivity : AppCompatActivity() {
                 R.string.result_total,
                 BigDecimal(total).setScale(2, RoundingMode.HALF_EVEN)
             )
-
-            resultTextOutput.text = writeOutput()
         }
-    }
 
-    private fun writeOutput(): String {
-        var output = ""
-
-        output += "${getString(R.string.result_total_per_person)}\n"
-        totalMap.forEach { (person, valueAsDouble) ->
-            // formatting value
-            val value = BigDecimal(valueAsDouble).setScale(2, RoundingMode.HALF_EVEN)
-            output += "$person = $value\n"
-        }
-        output += "${Constant.Message.SEPARATOR}\n\n"
-
-        val balanceMapper = BalanceMapper()
-
-        output += "${getString(R.string.result_amount_per_person)}\n"
-        balanceMapper.mapParticipantSituation(transactionList).forEach { (person, valueAsDouble) ->
-            // formatting value
-            val value = BigDecimal(valueAsDouble).setScale(2, RoundingMode.HALF_EVEN)
-            output += "$person = $value ${when (value.signum()) { // -1, 0, or 1 as the value of this BigDecimal is negative, zero, or positive.
-                1 -> getString(R.string.result_give_suffix)
-                -1 -> getString(R.string.result_take_suffix)
-                else -> ""
-            }}\n"
-        }
-        output += "${Constant.Message.SEPARATOR}\n\n"
-
-        output += "${getString(R.string.result_repartition)}\n"
-        balanceMapper.mapBalance(transactionList)?.forEach { line ->
-            output += "${line.replace(Constant.Message.OWES, getString(R.string.result_owes))}\n"
-        }
-        output += "${Constant.Message.SEPARATOR}\n\n"
-
-        return output
-    }
-
-    /*private fun elaborate(): String {
-        var total = BigDecimal.ZERO
-
-        totalMap.values.forEach { value -> total = total.add(value) } // filling total
-
-        val totalDivided = if (totalMap.size > 0) total.divide(
-            BigDecimal(totalMap.size),
-            BigDecimal.ROUND_CEILING
-        ) else BigDecimal.ZERO // division of total by person number
-
-        val totalOutput = getString(R.string.result_total, total) // TODO
-        supportActionBar?.title = totalOutput
-
-        var totalDividedOutput = ""
-        var repartitionOutput = ""
-        var error = BigDecimal.ZERO
-
-        if (totalMap.size > 0) {
-            totalDividedOutput += getString(R.string.result_total_amount_person, totalDivided)
-            totalDividedOutput += getString(R.string.result_details)
-
-            repartitionOutput += getString(R.string.result_repartition)
-
-            totalMap.keys.forEach { person ->
-                totalDividedOutput += "\n$person = ${totalMap[person]}"
-
-                // calculating individual repartition
-                val individualRepartition = totalDivided
-                    .minus(totalMap[person] ?: BigDecimal.ZERO)
-
-                error = error.plus(individualRepartition)
-
-                repartitionOutput += "\n$person = $individualRepartition"
-                repartitionOutput += when (individualRepartition.signum()) { // -1, 0, or 1 as the value of this BigDecimal is negative, zero, or positive.
-                    1 -> getString(R.string.result_give_suffix)
-                    -1 -> getString(R.string.result_take_suffix)
-                    else -> ""
-                }
+        viewpagerResult.adapter = ResultPagerAdapter(
+            supportFragmentManager,
+            gson,
+            transactionList,
+            totalMap
+        )
+        viewpagerResult.onScrollFinishedListener { position ->
+            supportActionBar?.title = when (position) {
+                0 -> getString(
+                    R.string.result_total,
+                    BigDecimal(total).setScale(2, RoundingMode.HALF_EVEN)
+                )
+                else -> getString(R.string.result)
             }
         }
-
-        val marginErrorOutput = if (error.compareTo(BigDecimal.ZERO) != 0)
-            getString(R.string.result_division_margin_error, error)
-        else
-            ""
-
-        return totalOutput +
-                totalDividedOutput +
-                repartitionOutput +
-                marginErrorOutput +
-                "\n"
-    }*/
+        tablayoutResult.setupWithViewPager(viewpagerResult)
+    }
 
 }

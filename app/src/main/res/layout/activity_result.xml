@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".scenes.home.HomeActivity">
 
-        <androidx.appcompat.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,18 +15,28 @@
             android:minHeight="?android:attr/actionBarSize"
             app:titleTextColor="@android:color/white" />
 
-        <TextView
-            android:id="@+id/resultTextOutput"
+    <!-- The view pager for fragments -->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/inconsolata"
-            android:gravity="top|start"
-            android:scrollbars="none"
-            android:textColor="@color/primary_text"
-            android:textIsSelectable="true"
-            android:textSize="18sp"
-            tools:ignore="Autofill, LabelFor" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    </LinearLayout>
+        <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewpagerResult"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-</ScrollView>
+        <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tablayoutResult"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="bottom"
+                app:tabBackground="@drawable/viewpager_dot_selector"
+                app:tabPaddingStart="6dp"
+                app:tabPaddingEnd="6dp"
+                app:tabGravity="center"
+                app:tabIndicatorHeight="0dp" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</LinearLayout>
