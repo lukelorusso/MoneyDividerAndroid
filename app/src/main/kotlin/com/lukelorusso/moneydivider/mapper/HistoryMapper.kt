@@ -1,6 +1,7 @@
 package com.lukelorusso.moneydivider.mapper
 
 import com.lukelorusso.moneydivider.extensions.getCreditOrDebit
+import com.lukelorusso.moneydivider.extensions.toIntlNumberString
 import com.lukelorusso.moneydivider.models.Constant
 import com.lukelorusso.moneydivider.models.Transaction
 import java.math.BigDecimal
@@ -49,9 +50,7 @@ class HistoryMapper {
         val formattedDate = mapAsFormattedDate(transaction.timestamp)
         val description = transaction.description.let { it + if (it.isNotEmpty()) " -" else "-" }
         val value = transaction.getCreditOrDebit(messageSender) ?: return null
-        val formattedValue = BigDecimal(value)
-            .abs()
-            .setScale(2, RoundingMode.HALF_EVEN)
+        val formattedValue = value.toIntlNumberString(abs = true)
         val messageSenderGet = messageSender == transaction.sender
         val whatToDo = if (messageSenderGet) Constant.Message.YOU_GET else Constant.Message.YOU_OWE
         return "$formattedDate $description $whatToDo $formattedValue"

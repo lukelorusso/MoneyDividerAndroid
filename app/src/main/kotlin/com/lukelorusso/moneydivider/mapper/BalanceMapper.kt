@@ -1,6 +1,7 @@
 package com.lukelorusso.moneydivider.mapper
 
 import com.lukelorusso.moneydivider.extensions.getCreditOrDebit
+import com.lukelorusso.moneydivider.extensions.toIntlNumberString
 import com.lukelorusso.moneydivider.models.BalanceRefund
 import com.lukelorusso.moneydivider.models.Constant
 import com.lukelorusso.moneydivider.models.Transaction
@@ -23,7 +24,7 @@ class BalanceMapper {
 
         refundList.forEach { refund ->
             // formatting value
-            val value = BigDecimal(refund.value).setScale(2, RoundingMode.HALF_EVEN)
+            val value = refund.value.toIntlNumberString()
 
             // formatting output message
             balanceLog.add("${refund.senderSubject} ${Constant.Message.OWES} ${refund.receiverSubject} $value")

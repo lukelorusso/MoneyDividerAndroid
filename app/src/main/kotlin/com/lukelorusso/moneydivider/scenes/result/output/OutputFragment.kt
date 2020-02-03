@@ -9,6 +9,8 @@ import com.google.gson.Gson
 import com.lukelorusso.moneydivider.R
 import com.lukelorusso.moneydivider.extensions.build
 import com.lukelorusso.moneydivider.extensions.fromJson
+import com.lukelorusso.moneydivider.extensions.toIntlNumberBigDecimal
+import com.lukelorusso.moneydivider.extensions.toIntlNumberString
 import com.lukelorusso.moneydivider.mapper.BalanceMapper
 import com.lukelorusso.moneydivider.models.Constant
 import com.lukelorusso.moneydivider.models.Transaction
@@ -69,7 +71,7 @@ class OutputFragment : Fragment() {
                 output += "${getString(R.string.result_total_per_person)}\n"
                 totalMap.forEach { (person, valueAsDouble) ->
                     // formatting value
-                    val value = BigDecimal(valueAsDouble).setScale(2, RoundingMode.HALF_EVEN)
+                    val value = valueAsDouble.toIntlNumberString()
                     output += "$person = $value\n"
                 }
                 output += "${Constant.Message.SEPARATOR}\n\n"
@@ -79,7 +81,7 @@ class OutputFragment : Fragment() {
                 output += "${getString(R.string.result_amount_per_person)}\n"
                 balanceMapper.mapParticipantSituation(transactionList).forEach { (person, valueAsDouble) ->
                     // formatting value
-                    val value = BigDecimal(valueAsDouble).setScale(2, RoundingMode.HALF_EVEN)
+                    val value = valueAsDouble.toIntlNumberBigDecimal()
                     output += "$person = $value ${when (value.signum()) { // -1, 0, or 1 as the value of this BigDecimal is negative, zero, or positive.
                         1 -> getString(R.string.result_give_suffix)
                         -1 -> getString(R.string.result_take_suffix)

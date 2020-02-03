@@ -10,6 +10,7 @@ import com.google.gson.Gson
 import com.lukelorusso.moneydivider.R
 import com.lukelorusso.moneydivider.extensions.fromJson
 import com.lukelorusso.moneydivider.extensions.onScrollFinishedListener
+import com.lukelorusso.moneydivider.extensions.toIntlNumberString
 import com.lukelorusso.moneydivider.models.Transaction
 import kotlinx.android.synthetic.main.activity_result.*
 import java.math.BigDecimal
@@ -70,7 +71,7 @@ class ResultActivity : AppCompatActivity() {
             }
             supportActionBar?.title = getString(
                 R.string.result_total,
-                BigDecimal(total).setScale(2, RoundingMode.HALF_EVEN)
+                total.toIntlNumberString()
             )
         }
 
@@ -84,7 +85,7 @@ class ResultActivity : AppCompatActivity() {
             supportActionBar?.title = when (position) {
                 0 -> getString(
                     R.string.result_total,
-                    BigDecimal(total).setScale(2, RoundingMode.HALF_EVEN)
+                    total.toIntlNumberString()
                 )
                 else -> getString(R.string.result)
             }
