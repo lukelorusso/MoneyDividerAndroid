@@ -33,3 +33,12 @@ fun Transaction.getCreditOrDebit(messageSender: String): Double? {
     val messageSenderGet = messageSender == this.sender
     return if (messageSenderGet) (-1 * notHisBill) else hisBill
 }
+
+fun List<Transaction>.getTotalMap(): Map<String, Double> {
+    val totalMap = mutableMapOf<String, Double>()
+    this.forEach { transition ->
+        totalMap[transition.sender] =
+            totalMap[transition.sender] ?: 0.0 + transition.value
+    }
+    return totalMap
+}

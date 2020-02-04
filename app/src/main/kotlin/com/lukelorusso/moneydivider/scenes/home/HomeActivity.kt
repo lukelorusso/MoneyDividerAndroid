@@ -27,7 +27,7 @@ class HomeActivity : AppCompatActivity() {
             Handler().post {
                 val mapper = AddAppTransactionListMapper()
                 try {
-                    val (transactionList, totalMap) = mapper.map(
+                    val transactionList = mapper.map(
                         System.currentTimeMillis(),
                         inputList()
                     )
@@ -37,8 +37,7 @@ class HomeActivity : AppCompatActivity() {
                         ResultActivity.newIntent(
                             this,
                             Gson(),
-                            transactionList,
-                            totalMap.toSortedMap()
+                            transactionList
                         )
                     )
                 } catch (e: ParsingException) {

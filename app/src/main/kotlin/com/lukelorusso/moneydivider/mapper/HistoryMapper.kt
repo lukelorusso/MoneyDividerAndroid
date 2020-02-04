@@ -4,12 +4,13 @@ import com.lukelorusso.moneydivider.extensions.getCreditOrDebit
 import com.lukelorusso.moneydivider.extensions.toIntlNumberString
 import com.lukelorusso.moneydivider.models.Constant
 import com.lukelorusso.moneydivider.models.Transaction
-import java.math.BigDecimal
-import java.math.RoundingMode
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HistoryMapper {
+class HistoryMapper(
+    private val giveSuffix: String = Constant.Message.YOU_OWE,
+    private val takeSuffix: String = Constant.Message.YOU_GET
+) {
 
     companion object {
         private const val DATE_FORMAT_PATTERN = "dd-MM-YY"
@@ -52,7 +53,7 @@ class HistoryMapper {
         val value = transaction.getCreditOrDebit(messageSender) ?: return null
         val formattedValue = value.toIntlNumberString(abs = true)
         val messageSenderGet = messageSender == transaction.sender
-        val whatToDo = if (messageSenderGet) Constant.Message.YOU_GET else Constant.Message.YOU_OWE
+        val whatToDo = if (messageSenderGet) takeSuffix else giveSuffix
         return "$formattedDate $description $whatToDo $formattedValue"
     }
 

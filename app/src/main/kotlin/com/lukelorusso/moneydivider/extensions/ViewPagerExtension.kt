@@ -2,8 +2,10 @@ package com.lukelorusso.moneydivider.extensions
 
 import androidx.viewpager.widget.ViewPager
 
-fun ViewPager.onPageScrolledListener(onScrollFinished: ((position: Int) -> Unit)? = null,
-                                     onPageSelected: ((position: Int) -> Unit)? = null) {
+fun ViewPager.onPageScrolledListener(
+    onScrollFinished: ((position: Int) -> Unit)? = null,
+    onPageSelected: ((position: Int) -> Unit)? = null
+) {
     var lastPosition = 0
     clearOnPageChangeListeners()
     addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -24,4 +26,4 @@ fun ViewPager.onPageScrolledListener(onScrollFinished: ((position: Int) -> Unit)
 }
 
 fun ViewPager.onScrollFinishedListener(onScrollFinished: ((position: Int) -> Unit)? = null) =
-        this.onPageScrolledListener(onScrollFinished = onScrollFinished)
+    this.onPageScrolledListener(onScrollFinished = onScrollFinished)

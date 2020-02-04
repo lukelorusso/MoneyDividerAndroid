@@ -12,9 +12,9 @@ class AddAppTransactionListMapper : AddTransactionMapper() {
     fun map(
         messageTimestamp: Long,
         unParsedInputList: List<String>
-    ): Pair<List<Transaction>, Map<String, Double>> {
+    ): List<Transaction> {
         val (senderList, parsedInputList) = parseToInput(unParsedInputList)
-        val transactionList = parsedInputList.mapIndexed { i, inputLine ->
+        return parsedInputList.mapIndexed { i, inputLine ->
             super.map(
                 messageTimestamp,
                 senderList[i],
@@ -22,12 +22,6 @@ class AddAppTransactionListMapper : AddTransactionMapper() {
                 emptyList()
             )
         }.filterNotNull()
-        val totalMap = mutableMapOf<String, Double>()
-        transactionList.forEach { transition ->
-            totalMap[transition.sender] =
-                totalMap[transition.sender] ?: 0.0 + transition.value
-        }
-        return Pair(transactionList, totalMap)
     }
 
     /**

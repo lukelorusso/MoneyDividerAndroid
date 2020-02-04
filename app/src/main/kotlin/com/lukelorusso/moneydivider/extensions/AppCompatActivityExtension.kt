@@ -9,16 +9,20 @@ import com.lukelorusso.moneydivider.R
  * @param containerViewId The container view to where add the fragment.
  * @param fragment The fragment to be added.
  */
-fun AppCompatActivity.addFragment(containerViewId: Int, fragment: Fragment, animationRight: Boolean? = null) {
+fun AppCompatActivity.addFragment(
+    containerViewId: Int,
+    fragment: Fragment,
+    animationRight: Boolean? = null
+) {
     supportFragmentManager.beginTransaction()
-            .apply {
-                animationRight?.also {
-                    if (animationRight) {
-                        setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
-                    } else {
-                        setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
-                    }
+        .apply {
+            animationRight?.also {
+                if (animationRight) {
+                    setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
+                } else {
+                    setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
                 }
-                replace(containerViewId, fragment)
-            }.commit()
+            }
+            replace(containerViewId, fragment)
+        }.commit()
 }

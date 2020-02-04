@@ -3,11 +3,12 @@
     <string name="put_your_data">"<i>Mettez vos dépenses!</i>\n$montant $prenom description_optionnelle"</string>
     <string name="divide">"Diviser"</string>
     <string name="result">"Résultat"</string>
+    <string name="detail">"Détail"</string>
     <string name="result_total">"Dépense totale: %s"</string>
     <string name="result_total_per_person">"Dépense totale par personne:"</string>
     <string name="result_amount_per_person">"Situation par personne:"</string>
     <string name="result_repartition">"Repartition:"</string>
-    <string name="result_give_suffix">"(donner)"</string>
-    <string name="result_take_suffix">"(avoir)"</string>
+    <string name="result_give_suffix">"tu payes"</string>
+    <string name="result_take_suffix">"tu reçois"</string>
     <string name="result_owes">"doit à"</string>
 </resources>

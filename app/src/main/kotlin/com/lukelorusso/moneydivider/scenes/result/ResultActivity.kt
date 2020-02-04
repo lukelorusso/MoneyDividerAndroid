@@ -3,34 +3,29 @@ package com.lukelorusso.moneydivider.scenes.result
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.lukelorusso.moneydivider.R
 import com.lukelorusso.moneydivider.extensions.fromJson
+import com.lukelorusso.moneydivider.extensions.getTotalMap
 import com.lukelorusso.moneydivider.extensions.onScrollFinishedListener
 import com.lukelorusso.moneydivider.extensions.toIntlNumberString
 import com.lukelorusso.moneydivider.models.Transaction
 import kotlinx.android.synthetic.main.activity_result.*
-import java.math.BigDecimal
-import java.math.RoundingMode
 
 class ResultActivity : AppCompatActivity() {
 
     companion object {
         private const val EXTRA_TRANSACTION_LIST = "EXTRA_TRANSACTION_LIST"
-        private const val EXTRA_TOTAL_MAP = "EXTRA_TOTAL_MAP"
 
         fun newIntent(
             context: Context,
             gson: Gson,
-            transactionList: List<Transaction>,
-            totalMap: Map<String, Double>
+            transactionList: List<Transaction>
         ): Intent =
             Intent(context, ResultActivity::class.java).apply {
                 putExtra(EXTRA_TRANSACTION_LIST, gson.toJson(transactionList))
-                putExtra(EXTRA_TOTAL_MAP, gson.toJson(totalMap))
             }
     }
 
@@ -40,10 +35,13 @@ class ResultActivity : AppCompatActivity() {
     private val transactionList by lazy {
         intent.getStringExtra(EXTRA_TRANSACTION_LIST).let { gson.fromJson<List<Transaction>>(it) }
     }
-    private val totalMap by lazy {
-        intent.getStringExtra(EXTRA_TOTAL_MAP).let { gson.fromJson<Map<String, Double>>(it) }
+    private val total by lazy {
+        var total = 0.0
+        transactionList.getTotalMap().forEach { (_, valueAsDouble) ->
+            total += valueAsDouble
+        }
+        total
     }
-    private var total = 0.0
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle toolbar back arrow click here
@@ -64,22 +62,15 @@ class ResultActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        Handler().post {
-            var total = 0.0
-            totalMap.forEach { (_, valueAsDouble) ->
-                total += valueAsDouble
-            }
-            supportActionBar?.title = getString(
-                R.string.result_total,
-                total.toIntlNumberString()
-            )
-        }
+        supportActionBar?.title = getString(
+            R.string.result_total,
+            total.toIntlNumberString()
+        )
 
         viewpagerResult.adapter = ResultPagerAdapter(
             supportFragmentManager,
             gson,
-            transactionList,
-            totalMap
+            transactionList
         )
         viewpagerResult.onScrollFinishedListener { position ->
             supportActionBar?.title = when (position) {
@@ -87,6 +78,7 @@ class ResultActivity : AppCompatActivity() {
                     R.string.result_total,
                     total.toIntlNumberString()
                 )
+                1 -> getString(R.string.detail)
                 else -> getString(R.string.result)
             }
         }

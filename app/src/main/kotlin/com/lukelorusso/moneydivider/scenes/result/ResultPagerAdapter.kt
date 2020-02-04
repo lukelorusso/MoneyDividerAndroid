@@ -5,7 +5,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.google.gson.Gson
 import com.lukelorusso.moneydivider.models.Transaction
-import com.lukelorusso.moneydivider.scenes.result.output.OutputFragment
+import com.lukelorusso.moneydivider.scenes.result.list.ResultListFragment
+import com.lukelorusso.moneydivider.scenes.result.output.ResultOutputFragment
 import java.lang.ref.WeakReference
 
 /**
@@ -14,16 +15,16 @@ import java.lang.ref.WeakReference
 class ResultPagerAdapter(
     fm: FragmentManager,
     private val gson: Gson,
-    private val transactionList: List<Transaction>,
-    private val totalMap: Map<String, Double>
+    private val transactionList: List<Transaction>
 ) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     // It's important to keep WeakReference to Fragments.
     // Otherwise the risk is to lose the fragment's instance (empty context)
-    private var mOutputFragment: WeakReference<OutputFragment>? = null
+    private val pageMap = mutableMapOf<Int, WeakReference<Fragment>>()
 
     private val tabTitles = arrayOf(
-        OutputFragment.TAG
+        ResultOutputFragment.TAG,
+        ResultListFragment.TAG
     )
 
     override fun getCount(): Int {
@@ -31,22 +32,26 @@ class ResultPagerAdapter(
     }
 
     override fun getItem(position: Int): Fragment {
-        return when (position) {
-            0 -> {
-                val f = mOutputFragment?.get() ?: OutputFragment.newInstance(
+        var f = pageMap[position]?.get()
+        if (f == null) {
+            f = when (position) {
+                0 -> ResultOutputFragment.newInstance(
                     gson,
-                    transactionList,
-                    totalMap
+                    transactionList
                 )
-                if (mOutputFragment == null || mOutputFragment?.get() == null)
-                    mOutputFragment = WeakReference(f)
-                f
+                1 -> ResultListFragment.newInstance(
+                    gson,
+                    transactionList
+                )
+                else -> Fragment()
             }
-            else -> Fragment()
+            pageMap[position] = WeakReference(f)
         }
+        return f
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
         return ""//tabTitles[position]
     }
+
 }
