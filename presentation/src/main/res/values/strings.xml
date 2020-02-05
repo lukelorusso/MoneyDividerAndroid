@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">"Money Divider"</string>
+    <string name="put_your_data">"<i>Put your resume!</i>\n$amount $person $description_optional"</string>
+    <string name="divide">"Divide"</string>
+    <string name="result">"Result"</string>
+    <string name="detail">"Detail"</string>
+    <string name="result_total">"Total: %s"</string>
+    <string name="result_total_per_person">"Total expense per person:"</string>
+    <string name="result_amount_per_person">"Situation per person:"</string>
+    <string name="result_repartition">"Repartition:"</string>
+    <string name="result_give_suffix">"you pay back"</string>
+    <string name="result_take_suffix">"you get back"</string>
+    <string name="result_owes">"owes"</string>
+    <string name="result_list_pointer_pattern" translatable="false">"➫ %s"</string>
+</resources>
