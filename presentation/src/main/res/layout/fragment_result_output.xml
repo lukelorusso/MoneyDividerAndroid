@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
+        android:padding="10dp"
         tools:context=".scenes.home.HomeActivity">
 
         <TextView

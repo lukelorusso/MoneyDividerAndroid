@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">"Diviseur d'argent"</string>
     <string name="put_your_data">"<i>Mettez vos dépenses!</i>\n$montant $prenom description_optionnelle"</string>
+    <string name="home_input_hint">"dépens ici…"</string>
     <string name="divide">"Diviser"</string>
     <string name="result">"Résultat"</string>
     <string name="detail">"Détail"</string>

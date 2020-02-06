@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">"Money Divider"</string>
     <string name="put_your_data">"<i>Put your resume!</i>\n$amount $person $description_optional"</string>
+    <string name="home_input_hint">"expenses here…"</string>
     <string name="divide">"Divide"</string>
     <string name="result">"Result"</string>
     <string name="detail">"Detail"</string>

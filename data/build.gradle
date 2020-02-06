@@ -17,7 +17,6 @@ android {
     buildTypes {
         debug {
             minifyEnabled true
-            useProguard false
             consumerProguardFiles modelRules, supportRules, apacheRules, gsonRules, okhttp3Rules, retrofit2Rules, stethoRules
         }
         release {

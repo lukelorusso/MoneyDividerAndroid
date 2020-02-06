@@ -23,6 +23,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="10dp"
             android:text="@string/put_your_data"
             android:textColor="@color/primary_text"
             android:textSize="16sp" />
@@ -31,8 +32,10 @@
             android:id="@+id/mainTextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:fontFamily="@font/inconsolata"
             android:gravity="top|start"
+            android:hint="@string/home_input_hint"
             android:inputType="textMultiLine"
             android:scrollbars="none"
             android:textColor="@color/primary_text"
