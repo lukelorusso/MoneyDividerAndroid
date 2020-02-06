@@ -3,8 +3,11 @@ package com.lukelorusso.data.mapper
 import com.lukelorusso.domain.model.Constant
 import com.lukelorusso.domain.model.ParsingException
 import com.lukelorusso.domain.model.Transaction
+import javax.inject.Inject
 
-class AddAppTransactionListMapper : AddTransactionMapper() {
+class AddAppTransactionListMapper
+@Inject constructor() : AddTransactionMapper() {
+
     companion object {
         private const val ALL_PARTICIPANTS_PLACEHOLDER = "[!ALL_PARTICIPANTS_PLACEHOLDER]"
     }

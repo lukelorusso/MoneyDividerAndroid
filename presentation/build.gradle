@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.ben-manes.versions'
 
 android {
@@ -36,8 +37,17 @@ dependencies {
     implementation androidXAppCompat
     implementation materialDesign
 
+    // RX
+    implementation rxAndroid
+    implementation rxKotlin
+    implementation rxBinding
+
     // GSON
     implementation gson
+
+    // CODE GENERATION
+    implementation dagger
+    kapt daggerCompiler
 
     // DEPENDENCY CHECK STRATEGY
     dependencyUpdates.resolutionStrategy = dependencyUpdatesStrategy

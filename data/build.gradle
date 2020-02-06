@@ -52,6 +52,9 @@ dependencies {
     implementation rxJava
     implementation rxKotlin
 
+    // GSON
+    implementation gson
+
     // DEBUG TOOLS
     implementation timber
 
