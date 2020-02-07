@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">"Traffico Illecito"</string>
+    <string name="error_view_retry">"Riprova"</string>
+    <string name="error_generic">"È avvenuto un errore"</string>
+    <string name="error_parsing">"Impossible d'analyser cette entrée"</string>
     <string name="put_your_data">"<i>Incolla i conti!</i>\n$importo $persona $descrizione_opzionale"</string>
     <string name="home_input_hint">"qui le spese…"</string>
     <string name="divide">"Dividi"</string>

@@ -1,6 +1,6 @@
 package com.lukelorusso.data.mapper
 
-import com.lukelorusso.data.extensions.toIntlNumberString
+import com.lukelorusso.data.extensions.toIntlCurrencyString
 import com.lukelorusso.data.extensions.getCreditOrDebit
 import com.lukelorusso.domain.model.BalanceRefund
 import com.lukelorusso.domain.model.Constant
@@ -22,7 +22,7 @@ class BalanceMapper {
 
         refundList.forEach { refund ->
             // formatting value
-            val value = refund.value.toIntlNumberString()
+            val value = refund.value.toIntlCurrencyString()
 
             // formatting output message
             balanceLog.add("${refund.senderSubject} ${Constant.Message.OWES} ${refund.receiverSubject} $value")

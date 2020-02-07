@@ -20,14 +20,18 @@ ext {
     kotlinStdlib                = "org.jetbrains.kotlin:kotlin-stdlib:${ext.kotlin_version}"
 
     // ANDROID LIB
-    androidXCoreVersion         = '1.1.0'
+    androidXCoreVersion         = '1.2.0'
     androidXVersion             = '1.1.0'
     androidAppCompatXVersion    = '1.1.0'
     materialVersion             = '1.1.0'
+    constraintLayoutVersion     = '1.1.3'
+    androidXSwipeRefreshVersion = '1.0.0'
     androidXCore                = "androidx.core:core:$androidXCoreVersion"
     androidXAppCompat           = "androidx.appcompat:appcompat:$androidAppCompatXVersion"
     materialDesign              = "com.google.android.material:material:$materialVersion"
     androidXPreference          = "androidx.preference:preference:$androidXVersion"
+    constraintLayout            = "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+    androidXSwipeRefresh        = "androidx.swiperefreshlayout:swiperefreshlayout:$androidXSwipeRefreshVersion"
 
     // DAGGER
     daggerVersion               = '2.26'

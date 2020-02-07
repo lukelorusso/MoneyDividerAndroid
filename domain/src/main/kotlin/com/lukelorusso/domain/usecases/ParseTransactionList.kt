@@ -11,7 +11,8 @@ import javax.inject.Inject
 class ParseTransactionList
 @Inject constructor(
     private val repository: TransactionRepository,
-    useCaseScheduler: UseCaseScheduler? = null, logger: Logger? = null
+    useCaseScheduler: UseCaseScheduler? = null,
+    logger: Logger? = null
 ) :
     SingleUseCase<List<Transaction>, ParseTransactionList.Param>(useCaseScheduler, logger) {
 

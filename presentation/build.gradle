@@ -35,12 +35,15 @@ dependencies {
 
     // ANDROIDX
     implementation androidXAppCompat
+    implementation constraintLayout
+    implementation androidXSwipeRefresh
     implementation materialDesign
 
     // RX
     implementation rxAndroid
     implementation rxKotlin
     implementation rxBinding
+    implementation rxBindingSwipeRefreshLayout
 
     // GSON
     implementation gson
@@ -48,6 +51,9 @@ dependencies {
     // CODE GENERATION
     implementation dagger
     kapt daggerCompiler
+
+    // DEBUG TOOLS
+    implementation timber
 
     // DEPENDENCY CHECK STRATEGY
     dependencyUpdates.resolutionStrategy = dependencyUpdatesStrategy

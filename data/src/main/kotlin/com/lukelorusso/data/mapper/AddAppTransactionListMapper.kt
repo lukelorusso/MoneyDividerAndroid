@@ -1,7 +1,7 @@
 package com.lukelorusso.data.mapper
 
 import com.lukelorusso.domain.model.Constant
-import com.lukelorusso.domain.model.ParsingException
+import com.lukelorusso.domain.model.AddAppTransactionListException
 import com.lukelorusso.domain.model.Transaction
 import javax.inject.Inject
 
@@ -51,7 +51,7 @@ class AddAppTransactionListMapper
                 var participants =
                     ALL_PARTICIPANTS_PLACEHOLDER
                 if (remaining.contains("(")) {
-                    if (!remaining.contains(")")) throw ParsingException(
+                    if (!remaining.contains(")")) throw AddAppTransactionListException(
                         i
                     )
                     participants =
@@ -69,12 +69,12 @@ class AddAppTransactionListMapper
                 remaining = remaining.replace("$valueAsString ", "")
                 valueAsString = valueAsString.replace(',', '.')
                 if (valueAsString.isBlank() || valueAsString.toDoubleOrNull() == null || remaining.isBlank())
-                    throw ParsingException(i)
+                    throw AddAppTransactionListException(i)
 
                 // expecting the second thing to be the payer
                 val payer = remaining.substring(0, remaining.indexOf(" "))
                 remaining = remaining.replace("$payer ", "")
-                if (payer.isBlank()) throw ParsingException(
+                if (payer.isBlank()) throw AddAppTransactionListException(
                     i
                 )
                 allParticipantList.add(payer)
@@ -88,7 +88,7 @@ class AddAppTransactionListMapper
                 allParticipantList = allParticipantList.distinct().sorted().toMutableList()
 
             } catch (e: StringIndexOutOfBoundsException) {
-                throw ParsingException(i)
+                throw AddAppTransactionListException(i)
             }
         }
 

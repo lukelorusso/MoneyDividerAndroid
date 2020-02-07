@@ -1,7 +1,7 @@
 package com.lukelorusso.data.mapper
 
 import com.lukelorusso.data.extensions.getCreditOrDebit
-import com.lukelorusso.data.extensions.toIntlNumberString
+import com.lukelorusso.data.extensions.toIntlCurrencyString
 import com.lukelorusso.domain.model.Constant
 import com.lukelorusso.domain.model.Transaction
 import java.text.SimpleDateFormat
@@ -51,7 +51,7 @@ class HistoryMapper(
         val formattedDate = mapAsFormattedDate(transaction.timestamp)
         val description = transaction.description.let { it + if (it.isNotEmpty()) " -" else "-" }
         val value = transaction.getCreditOrDebit(messageSender) ?: return null
-        val formattedValue = value.toIntlNumberString(abs = true)
+        val formattedValue = value.toIntlCurrencyString(abs = true)
         val messageSenderGet = messageSender == transaction.sender
         val whatToDo = if (messageSenderGet) takeSuffix else giveSuffix
         return "$formattedDate $description $whatToDo $formattedValue"

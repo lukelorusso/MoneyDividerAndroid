@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">"Diviseur d'argent"</string>
+    <string name="error_view_retry">"Réessayez"</string>
+    <string name="error_generic">"Une erreur est survenue"</string>
+    <string name="error_parsing">"Cannot parse this input"</string>
     <string name="put_your_data">"<i>Mettez vos dépenses!</i>\n$montant $prenom description_optionnelle"</string>
     <string name="home_input_hint">"dépens ici…"</string>
     <string name="divide">"Diviser"</string>
