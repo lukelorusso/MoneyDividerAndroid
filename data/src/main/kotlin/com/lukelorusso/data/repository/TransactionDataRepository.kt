@@ -21,4 +21,5 @@ class TransactionDataRepository(
             )
         }
             .onErrorResumeNext(MappingExceptionFunction())
+
 }

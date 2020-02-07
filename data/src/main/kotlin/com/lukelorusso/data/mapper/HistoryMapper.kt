@@ -6,11 +6,10 @@ import com.lukelorusso.domain.model.Constant
 import com.lukelorusso.domain.model.Transaction
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-class HistoryMapper(
-    private val giveSuffix: String = Constant.Message.YOU_OWE,
-    private val takeSuffix: String = Constant.Message.YOU_GET
-) {
+class HistoryMapper
+@Inject constructor() {
 
     companion object {
         private const val DATE_FORMAT_PATTERN = "dd-MM-YY"
@@ -24,14 +23,18 @@ class HistoryMapper(
      */
     fun map(
         messageSender: String,
-        transactionList: List<Transaction>
+        transactionList: List<Transaction>,
+        giveSuffix: String = Constant.Message.YOU_OWE,
+        takeSuffix: String = Constant.Message.YOU_GET
     ): List<String>? {
         val historyLog = mutableListOf<String>()
         transactionList.forEach { transaction ->
             if (transaction.participantNameList.plus(transaction.sender).contains(messageSender)) {
                 mapAsDescribedTransaction(
                     messageSender,
-                    transaction
+                    transaction,
+                    giveSuffix,
+                    takeSuffix
                 )?.also { historyLog.add(it) }
             }
         }
@@ -46,7 +49,9 @@ class HistoryMapper(
      */
     private fun mapAsDescribedTransaction(
         messageSender: String,
-        transaction: Transaction
+        transaction: Transaction,
+        giveSuffix: String,
+        takeSuffix: String
     ): String? {
         val formattedDate = mapAsFormattedDate(transaction.timestamp)
         val description = transaction.description.let { it + if (it.isNotEmpty()) " -" else "-" }

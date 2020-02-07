@@ -1,19 +1,24 @@
 package com.lukelorusso.data.mapper
 
-import com.lukelorusso.data.extensions.toIntlCurrencyString
 import com.lukelorusso.data.extensions.getCreditOrDebit
+import com.lukelorusso.data.extensions.toIntlCurrencyString
 import com.lukelorusso.domain.model.BalanceRefund
 import com.lukelorusso.domain.model.Constant
 import com.lukelorusso.domain.model.Transaction
+import javax.inject.Inject
 import kotlin.math.absoluteValue
 
-class BalanceMapper {
+class BalanceMapper
+@Inject constructor() {
     /**
      * Try to map the input to a balance log.
      * @param transactionList to be analysed.
      * @return a [List] of [String] as a balance log if successfully mapped, null otherwise
      */
-    fun mapBalance(transactionList: List<Transaction>): List<String>? {
+    fun map(
+        transactionList: List<Transaction>,
+        owesMessage: String = Constant.Message.OWES
+    ): List<String>? {
         val balanceLog = mutableListOf<String>()
         val participantSituationMap = mapParticipantSituation(transactionList)
         val refundList = mutableListOf<BalanceRefund>()
@@ -25,7 +30,7 @@ class BalanceMapper {
             val value = refund.value.toIntlCurrencyString()
 
             // formatting output message
-            balanceLog.add("${refund.senderSubject} ${Constant.Message.OWES} ${refund.receiverSubject} $value")
+            balanceLog.add("${refund.senderSubject} $owesMessage ${refund.receiverSubject} $value")
         }
 
         return balanceLog

@@ -5,10 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.gson.Gson
+import com.lukelorusso.data.helper.TimberWrapper
 import com.lukelorusso.moneydivider.R
 import com.lukelorusso.moneydivider.extensions.build
 import com.lukelorusso.domain.model.Transaction
+import com.lukelorusso.moneydivider.scenes.base.view.ContentState
+import com.lukelorusso.moneydivider.scenes.base.view.LoadingState
 import com.lukelorusso.moneydivider.scenes.result.ResultFragment
+import com.lukelorusso.moneydivider.scenes.result.ResultViewModel
 import kotlinx.android.synthetic.main.fragment_result_list.*
 
 class ResultListFragment : ResultFragment() {
@@ -40,12 +44,24 @@ class ResultListFragment : ResultFragment() {
     ): View? =
         inflater.inflate(R.layout.fragment_result_list, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
-    }
+    //region RENDER
+    override fun render(viewModel: ResultViewModel) {
+        activity?.runOnUiThread {
+            TimberWrapper.d { "render: $viewModel" }
 
-    override fun initView() {
+            showLoading(viewModel.loadingState == LoadingState.LOADING)
+            showRetryLoading(viewModel.loadingState == LoadingState.RETRY)
+            showContent(recyclerViewResult, viewModel.contentState == ContentState.CONTENT)
+            showError(viewModel.contentState == ContentState.ERROR)
+
+            renderData(viewModel.participantSituationMap, viewModel.balance)
+            renderSnack(viewModel.snackMessage)
+        }
+    }
+    //endregion
+
+    //region PRIVATE
+    private fun renderData(participantSituationMap: Map<String, Double>?, balance: List<String>?) {
         recyclerViewResult.adapter = adapter
         transactionList?.also { list ->
             val participantList = mutableListOf<String>()
@@ -57,5 +73,6 @@ class ResultListFragment : ResultFragment() {
             adapter.data = participantList.distinct()
         }
     }
+    //endregion
 
 }

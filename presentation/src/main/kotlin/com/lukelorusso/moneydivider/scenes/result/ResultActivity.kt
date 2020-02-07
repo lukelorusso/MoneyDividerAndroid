@@ -4,17 +4,17 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
+import com.lukelorusso.domain.model.Transaction
 import com.lukelorusso.moneydivider.R
 import com.lukelorusso.moneydivider.extensions.fromJson
 import com.lukelorusso.moneydivider.extensions.getTotalMap
 import com.lukelorusso.moneydivider.extensions.onScrollFinishedListener
 import com.lukelorusso.moneydivider.extensions.toIntlNumberString
-import com.lukelorusso.domain.model.Transaction
+import com.lukelorusso.moneydivider.scenes.base.view.ABaseActivity
 import kotlinx.android.synthetic.main.activity_result.*
 
-class ResultActivity : AppCompatActivity() {
+class ResultActivity : ABaseActivity() {
 
     companion object {
         private const val EXTRA_TRANSACTION_LIST = "EXTRA_TRANSACTION_LIST"

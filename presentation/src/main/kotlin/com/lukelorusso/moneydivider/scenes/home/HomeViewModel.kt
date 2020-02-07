@@ -17,7 +17,8 @@ data class HomeViewModel(
         fun createRetryLoading() =
             HomeViewModel(loadingState = LoadingState.RETRY, contentState = ContentState.ERROR)
 
-        fun createTransactionList(transactionList: List<Transaction>) = HomeViewModel(contentState = ContentState.CONTENT, transactionList = transactionList)
+        fun createTransactionList(transactionList: List<Transaction>) =
+            HomeViewModel(contentState = ContentState.CONTENT, transactionList = transactionList)
 
         fun createSnack(snackMessage: String) =
             HomeViewModel(contentState = ContentState.CONTENT, snackMessage = snackMessage)

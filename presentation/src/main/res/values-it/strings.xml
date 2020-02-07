@@ -3,7 +3,7 @@
     <string name="error_view_retry">"Riprova"</string>
     <string name="error_generic">"È avvenuto un errore"</string>
     <string name="error_parsing">"Impossible d'analyser cette entrée"</string>
-    <string name="put_your_data">"<i>Incolla i conti!</i>\n$importo $persona $descrizione_opzionale"</string>
+    <string name="put_your_data">"<i>Incolla le spese!</i>\n$importo $persona $descrizione_opzionale"</string>
     <string name="home_input_hint">"qui le spese…"</string>
     <string name="divide">"Dividi"</string>
     <string name="result">"Risultato"</string>
@@ -12,7 +12,7 @@
     <string name="result_total_per_person">"Spesa totale per persona:"</string>
     <string name="result_amount_per_person">"Situazione per persona:"</string>
     <string name="result_repartition">"Ripartizione:"</string>
-    <string name="result_give_suffix">"devi"</string>
+    <string name="result_give_suffix">"dai"</string>
     <string name="result_take_suffix">"ricevi"</string>
     <string name="result_owes">"deve a"</string>
 </resources>

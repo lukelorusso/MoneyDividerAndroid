@@ -19,7 +19,7 @@ class ResultListAdapter(
 ) :
     RecyclerView.Adapter<ResultListAdapter.ViewHolder>() {
 
-    private val historyMapper = HistoryMapper(giveSuffix, takeSuffix)
+    private val historyMapper = HistoryMapper()
 
     private val balanceMapper = BalanceMapper()
 
@@ -55,7 +55,9 @@ class ResultListAdapter(
             it.itemResultSituation.text = situation
             it.itemResultHistory.text = historyMapper.map(
                 sender,
-                transactionList
+                transactionList,
+                giveSuffix,
+                takeSuffix
             )?.joinToString("\n") { line ->
                 String.format(
                     listPattern,

@@ -5,15 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.gson.Gson
+import com.lukelorusso.data.helper.TimberWrapper
+import com.lukelorusso.domain.model.Constant
+import com.lukelorusso.domain.model.Transaction
 import com.lukelorusso.moneydivider.R
 import com.lukelorusso.moneydivider.extensions.build
 import com.lukelorusso.moneydivider.extensions.getTotalMap
 import com.lukelorusso.moneydivider.extensions.toIntlNumberBigDecimal
 import com.lukelorusso.moneydivider.extensions.toIntlNumberString
-import com.lukelorusso.data.mapper.BalanceMapper
-import com.lukelorusso.domain.model.Constant
-import com.lukelorusso.domain.model.Transaction
+import com.lukelorusso.moneydivider.scenes.base.view.ContentState
+import com.lukelorusso.moneydivider.scenes.base.view.LoadingState
 import com.lukelorusso.moneydivider.scenes.result.ResultFragment
+import com.lukelorusso.moneydivider.scenes.result.ResultViewModel
 import kotlinx.android.synthetic.main.fragment_result_output.*
 
 class ResultOutputFragment : ResultFragment() {
@@ -36,48 +39,58 @@ class ResultOutputFragment : ResultFragment() {
     ): View? =
         inflater.inflate(R.layout.fragment_result_output, container, false)
 
-    override fun initView() {
-        resultTextOutput.text = writeOutput()
+    //region RENDER
+    override fun render(viewModel: ResultViewModel) {
+        activity?.runOnUiThread {
+            TimberWrapper.d { "render: $viewModel" }
+
+            showLoading(viewModel.loadingState == LoadingState.LOADING)
+            showRetryLoading(viewModel.loadingState == LoadingState.RETRY)
+            showContent(content, viewModel.contentState == ContentState.CONTENT)
+            showError(viewModel.contentState == ContentState.ERROR)
+
+            renderData(viewModel.participantSituationMap, viewModel.balance)
+            renderSnack(viewModel.snackMessage)
+        }
     }
+    //endregion
 
-    private fun writeOutput(): String {
-        var output = ""
+    //region PRIVATE
+    private fun renderData(participantSituationMap: Map<String, Double>?, balance: List<String>?) {
+        participantSituationMap?.also { situationMap ->
+            var output = ""
 
-        transactionList?.also { transactionList ->
+            // Total expense per person
             output += "${getString(R.string.result_total_per_person)}\n"
-            transactionList.getTotalMap().forEach { (person, valueAsDouble) ->
+            transactionList?.getTotalMap()?.forEach { (person, valueAsDouble) ->
                 // formatting value
                 val value = valueAsDouble.toIntlNumberString()
                 output += "$person = $value\n"
             }
             output += "${Constant.Message.SEPARATOR}\n\n"
 
-            val balanceMapper = BalanceMapper()
-
+            // Situation per person
             output += "${getString(R.string.result_amount_per_person)}\n"
-            balanceMapper.mapParticipantSituation(transactionList)
-                .forEach { (person, valueAsDouble) ->
-                    // formatting value
-                    val value = valueAsDouble.toIntlNumberBigDecimal()
-                    output += "$person = $value (${when (value.signum()) { // -1, 0, or 1 as the value of this BigDecimal is negative, zero, or positive.
-                        1 -> getString(R.string.result_give_suffix)
-                        -1 -> getString(R.string.result_take_suffix)
-                        else -> ""
-                    }})\n"
-                }
-            output += "${Constant.Message.SEPARATOR}\n\n"
-
-            output += "${getString(R.string.result_repartition)}\n"
-            balanceMapper.mapBalance(transactionList)?.forEach { line ->
-                output += "${line.replace(
-                    Constant.Message.OWES,
-                    getString(R.string.result_owes)
-                )}\n"
+            situationMap.forEach { (person, valueAsDouble) ->
+                // formatting value
+                val value = valueAsDouble.toIntlNumberBigDecimal()
+                output += "$person = $value (${when (value.signum()) { // -1, 0, or 1 as the value of this BigDecimal is negative, zero, or positive.
+                    1 -> getString(R.string.result_give_suffix)
+                    -1 -> getString(R.string.result_take_suffix)
+                    else -> ""
+                }})\n"
             }
             output += "${Constant.Message.SEPARATOR}\n\n"
-        }
 
-        return output
+            // Repartition
+            output += "${getString(R.string.result_repartition)}\n"
+            balance?.forEach { line ->
+                output += "$line\n"
+            }
+            output += "${Constant.Message.SEPARATOR}\n\n"
+            resultTextOutput.text = output
+        }
     }
+    //endregion
 
 }

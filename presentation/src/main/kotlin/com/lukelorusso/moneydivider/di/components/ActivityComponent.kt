@@ -4,6 +4,7 @@ import android.app.Activity
 import com.lukelorusso.moneydivider.di.PerActivity
 import com.lukelorusso.moneydivider.di.modules.ActivityModule
 import com.lukelorusso.moneydivider.scenes.home.HomeActivity
+import com.lukelorusso.moneydivider.scenes.result.ResultFragment
 import dagger.BindsInstance
 import dagger.Subcomponent
 
@@ -17,5 +18,6 @@ interface ActivityComponent {
     }
 
     fun inject(activity: HomeActivity)
+    fun inject(fragment: ResultFragment)
 
 }
