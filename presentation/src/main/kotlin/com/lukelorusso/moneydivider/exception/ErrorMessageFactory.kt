@@ -17,7 +17,7 @@ open class ErrorMessageFactory
     open fun getError(exception: Throwable?): String =
         exception?.let {
             when (it) {
-                is MappingException -> context.getString(R.string.error_parsing) + " (${it.line})"
+                is MappingException -> context.getString(R.string.error_parsing, it.line.toString())
                 else -> context.getString(R.string.error_generic)
             }.apply { Timber.e(it) }
         } ?: getGenericError()

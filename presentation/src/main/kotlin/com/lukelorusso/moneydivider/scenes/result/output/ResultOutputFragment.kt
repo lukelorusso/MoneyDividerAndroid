@@ -103,7 +103,7 @@ class ResultOutputFragment : ResultFragment(), ResultOutputView {
 
             // Total expense per person
             output += "${getString(R.string.result_total_per_person)}\n"
-            transactionList?.getTotalMap()?.forEach { (person, valueAsDouble) ->
+            transactionList?.getTotalMap()?.toSortedMap()?.forEach { (person, valueAsDouble) ->
                 // formatting value
                 val value = valueAsDouble.toIntlNumberString()
                 output += "$person = $value\n"
@@ -112,24 +112,27 @@ class ResultOutputFragment : ResultFragment(), ResultOutputView {
 
             // Situation per person
             output += "${getString(R.string.result_amount_per_person)}\n"
-            situationMap.forEach { (person, valueAsDouble) ->
+            situationMap.toSortedMap().forEach { (person, valueAsDouble) ->
                 // formatting value
                 val value = valueAsDouble.toIntlNumberBigDecimal()
-                output += "$person = $value (${when (value.signum()) { // -1, 0, or 1 as the value of this BigDecimal is negative, zero, or positive.
-                    1 -> getString(R.string.result_give_suffix)
-                    -1 -> getString(R.string.result_take_suffix)
-                    else -> ""
-                }})\n"
+                val description = getString(
+                    when (value.signum()) { // -1, 0, or 1 as the value of this BigDecimal is negative, zero, or positive.
+                        1 -> R.string.result_give_suffix
+                        -1 -> R.string.result_take_suffix
+                        else -> R.string.result_ok
+                    }
+                )
+                output += "$person = $value ($description)\n"
             }
             output += "${Constant.Message.SEPARATOR}\n\n"
 
             // Repartition
             output += "${getString(R.string.result_repartition)}\n"
-            balance?.forEach { line ->
+            balance?.sorted()?.forEach { line ->
                 output += "$line\n"
             }
             output += "${Constant.Message.SEPARATOR}\n\n"
-            
+
             resultTextOutput.text = output
         }
     }

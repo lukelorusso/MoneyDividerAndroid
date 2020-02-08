@@ -2,7 +2,7 @@
     <string name="app_name">"Diviseur d'argent"</string>
     <string name="error_view_retry">"Réessayez"</string>
     <string name="error_generic">"Une erreur est survenue"</string>
-    <string name="error_parsing">"Cannot parse this input"</string>
+    <string name="error_parsing">"Impossible d'analyser cette entrée (à la ligne %s)"</string>
     <string name="put_your_data">"<i>Mettez vos dépenses!</i>\n$montant $prenom description_optionnelle"</string>
     <string name="home_input_hint">"dépens ici…"</string>
     <string name="divide">"Diviser"</string>
@@ -14,5 +14,6 @@
     <string name="result_repartition">"Repartition:"</string>
     <string name="result_give_suffix">"tu payes"</string>
     <string name="result_take_suffix">"tu reçois"</string>
+    <string name="result_ok">"tu es bon"</string>
     <string name="result_owes">"doit à"</string>
 </resources>

@@ -6,40 +6,18 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/itemResultSituation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <TextView
-            android:id="@+id/itemResultSender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/inconsolata"
-            android:scrollbars="none"
-            android:textColor="@color/primary_text"
-            android:textIsSelectable="true"
-            android:textSize="18sp"
-            tools:ignore="Autofill, LabelFor" />
-
-        <Space
-            android:layout_width="10dp"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/itemResultSituation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/inconsolata"
-            android:scrollbars="none"
-            android:textColor="@color/primary_text"
-            android:textIsSelectable="true"
-            android:textSize="18sp"
-            tools:ignore="Autofill, LabelFor" />
-
-    </LinearLayout>
+        android:fontFamily="@font/inconsolata"
+        android:padding="10dp"
+        android:scrollbars="none"
+        android:textColor="@color/primary_text"
+        android:textIsSelectable="true"
+        android:textSize="18sp"
+        tools:ignore="Autofill, LabelFor" />
 
     <TextView
         android:id="@+id/itemResultHistory"

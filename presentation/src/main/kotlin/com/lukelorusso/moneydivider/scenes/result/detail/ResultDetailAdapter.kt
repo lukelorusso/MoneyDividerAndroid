@@ -1,4 +1,4 @@
-package com.lukelorusso.moneydivider.scenes.result.list
+package com.lukelorusso.moneydivider.scenes.result.detail
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,7 @@ import com.lukelorusso.moneydivider.R
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_result.view.*
 
-class ResultListAdapter : RecyclerView.Adapter<ResultListAdapter.ViewHolder>() {
+class ResultDetailAdapter : RecyclerView.Adapter<ResultDetailAdapter.ViewHolder>() {
 
     val intentItemLoad = PublishSubject.create<String>()
 
@@ -44,9 +44,9 @@ class ResultListAdapter : RecyclerView.Adapter<ResultListAdapter.ViewHolder>() {
                 val context = it.context
                 val colorRes = if (even) R.color.background_evens else R.color.background_odds
                 it.content.setBackgroundColor(ContextCompat.getColor(context, colorRes))
-                it.itemResultSender.text = sender
+                val description = "$sender $situation"
+                it.itemResultSituation.text = description
                 it.itemResultHistory.text = history
-                it.itemResultSituation.text = situation
             }
         }
     }

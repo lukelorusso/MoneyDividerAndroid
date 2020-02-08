@@ -2,7 +2,7 @@
     <string name="app_name">"Money Divider"</string>
     <string name="error_view_retry">Retry</string>
     <string name="error_generic">"An error occurred"</string>
-    <string name="error_parsing">"Cannot parse this input"</string>
+    <string name="error_parsing">"Cannot parse this input (at line %s)"</string>
     <string name="put_your_data">"<i>Put your resume!</i>\n$amount $person $description_optional"</string>
     <string name="home_input_hint">"expenses here…"</string>
     <string name="divide">"Divide"</string>
@@ -14,6 +14,7 @@
     <string name="result_repartition">"Repartition:"</string>
     <string name="result_give_suffix">"you pay back"</string>
     <string name="result_take_suffix">"you get back"</string>
+    <string name="result_ok">"you are OK"</string>
     <string name="result_owes">"owes"</string>
 
     <!-- untranslatable -->

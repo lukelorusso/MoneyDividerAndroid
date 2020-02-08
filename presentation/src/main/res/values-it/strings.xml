@@ -2,7 +2,7 @@
     <string name="app_name">"Traffico Illecito"</string>
     <string name="error_view_retry">"Riprova"</string>
     <string name="error_generic">"È avvenuto un errore"</string>
-    <string name="error_parsing">"Impossible d'analyser cette entrée"</string>
+    <string name="error_parsing">"Impossibile analizzare questo input (alla riga %s)"</string>
     <string name="put_your_data">"<i>Incolla le spese!</i>\n$importo $persona $descrizione_opzionale"</string>
     <string name="home_input_hint">"qui le spese…"</string>
     <string name="divide">"Dividi"</string>
@@ -14,5 +14,6 @@
     <string name="result_repartition">"Ripartizione:"</string>
     <string name="result_give_suffix">"dai"</string>
     <string name="result_take_suffix">"ricevi"</string>
+    <string name="result_ok">"stai bene"</string>
     <string name="result_owes">"deve a"</string>
 </resources>

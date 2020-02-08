@@ -61,7 +61,11 @@ class AddAppTransactionListMapper
                         .replace(" $participants)", "") // ...or before
                     participants = participants
                         .replace("(", "")
-                    allParticipantList.addAll(participants.split(','))
+                        .replace(Constant.RegExp.WHITE_SPACES, "")
+                    if (participants.isNotEmpty())
+                        allParticipantList.addAll(
+                            participants.split(',').map { it.trim() }
+                        )
                 }
 
                 // expecting the first thing to be the value
@@ -72,18 +76,24 @@ class AddAppTransactionListMapper
                     throw AddAppTransactionListException(i)
 
                 // expecting the second thing to be the payer
-                val payer = remaining.substring(0, remaining.indexOf(" "))
-                remaining = remaining.replace("$payer ", "")
+                val payer: String
+                if (remaining.contains(" ")) {
+                    payer = remaining.substring(0, remaining.indexOf(" "))
+                    remaining = remaining.replace("$payer ", "")
+                } else {
+                    payer = remaining
+                    remaining = remaining.replace(payer, "")
+                }
                 if (payer.isBlank()) throw AddAppTransactionListException(
                     i
                 )
                 allParticipantList.add(payer)
+                senderList.add(payer)
 
                 // the remaining is the description
-                senderList.add(payer)
-                parsedInputList.add(
-                    "$valueAsString|$participants \"$remaining\""
-                )
+                var parsedInput = "$valueAsString|$participants"
+                if (remaining.isNotEmpty()) parsedInput += " \"$remaining\""
+                parsedInputList.add(parsedInput)
 
                 allParticipantList = allParticipantList.distinct().sorted().toMutableList()
 

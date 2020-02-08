@@ -5,13 +5,10 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.google.gson.Gson
 import com.lukelorusso.domain.model.Transaction
-import com.lukelorusso.moneydivider.scenes.result.list.ResultListFragment
+import com.lukelorusso.moneydivider.scenes.result.detail.ResultDetailFragment
 import com.lukelorusso.moneydivider.scenes.result.output.ResultOutputFragment
 import java.lang.ref.WeakReference
 
-/**
- * @author LukeLorusso on 07-01-2019.
- */
 class ResultPagerAdapter(
     fm: FragmentManager,
     private val gson: Gson,
@@ -24,7 +21,7 @@ class ResultPagerAdapter(
 
     private val tabTitles = arrayOf(
         ResultOutputFragment.TAG,
-        ResultListFragment.TAG
+        ResultDetailFragment.TAG
     )
 
     override fun getCount(): Int {
@@ -39,7 +36,7 @@ class ResultPagerAdapter(
                     gson,
                     transactionList
                 )
-                1 -> ResultListFragment.newInstance(
+                1 -> ResultDetailFragment.newInstance(
                     gson,
                     transactionList
                 )

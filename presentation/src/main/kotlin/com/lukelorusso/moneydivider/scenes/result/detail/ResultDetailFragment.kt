@@ -1,4 +1,4 @@
-package com.lukelorusso.moneydivider.scenes.result.list
+package com.lukelorusso.moneydivider.scenes.result.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,17 +19,17 @@ import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_result_list.*
 import javax.inject.Inject
 
-class ResultListFragment : ResultFragment(), ResultListView {
+class ResultDetailFragment : ResultFragment(), ResultDetailView {
 
     companion object {
         private const val EXTRA_TRANSACTION_LIST = "EXTRA_TRANSACTION_LIST"
 
-        val TAG: String = ResultListFragment::class.java.simpleName
+        val TAG: String = ResultDetailFragment::class.java.simpleName
 
         fun newInstance(
             gson: Gson,
             transactionList: List<Transaction>
-        ): ResultListFragment = ResultListFragment().build {
+        ): ResultDetailFragment = ResultDetailFragment().build {
             putString(EXTRA_TRANSACTION_LIST, gson.toJson(transactionList))
         }
     }
@@ -38,7 +38,7 @@ class ResultListFragment : ResultFragment(), ResultListView {
     lateinit var gson: Gson
 
     @Inject
-    lateinit var presenter: ResultListPresenter
+    lateinit var presenter: ResultDetailPresenter
 
     // Properties
     private val transactionList by lazy {
@@ -46,7 +46,7 @@ class ResultListFragment : ResultFragment(), ResultListView {
     }
 
     // View
-    private val adapter by lazy { ResultListAdapter() }
+    private val adapter by lazy { ResultDetailAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,7 +87,7 @@ class ResultListFragment : ResultFragment(), ResultListView {
     //endregion
 
     //region RENDER
-    override fun render(viewModel: ResultListViewModel) {
+    override fun render(viewModel: ResultDetailViewModel) {
         activity?.runOnUiThread {
             TimberWrapper.d { "render: $viewModel" }
 
@@ -143,7 +143,7 @@ class ResultListFragment : ResultFragment(), ResultListView {
                 participantList.add(transaction.sender)
                 participantList.addAll(transaction.participantNameList)
             }
-            adapter.data = participantList.distinct()
+            adapter.data = participantList.distinct().sorted()
         }
     }
     //endregion
