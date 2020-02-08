@@ -67,11 +67,12 @@ class ResultActivity : ABaseActivity() {
             total.toIntlNumberString()
         )
 
-        viewpagerResult.adapter = ResultPagerAdapter(
+        val adapter = ResultPagerAdapter(
             supportFragmentManager,
             gson,
             transactionList
         )
+        viewpagerResult.adapter = adapter
         viewpagerResult.onScrollFinishedListener { position ->
             supportActionBar?.title = when (position) {
                 0 -> getString(
@@ -81,6 +82,7 @@ class ResultActivity : ABaseActivity() {
                 1 -> getString(R.string.detail)
                 else -> getString(R.string.result)
             }
+            (adapter.getItem(position) as? ResultFragment)?.initView()
         }
         tablayoutResult.setupWithViewPager(viewpagerResult)
     }

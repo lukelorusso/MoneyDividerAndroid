@@ -6,18 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.gson.Gson
 import com.lukelorusso.data.helper.TimberWrapper
+import com.lukelorusso.domain.model.Transaction
+import com.lukelorusso.domain.usecases.GetHistory
 import com.lukelorusso.moneydivider.R
 import com.lukelorusso.moneydivider.extensions.build
-import com.lukelorusso.domain.model.Transaction
+import com.lukelorusso.moneydivider.extensions.fromJson
+import com.lukelorusso.moneydivider.extensions.toIntlNumberBigDecimal
 import com.lukelorusso.moneydivider.scenes.base.view.ContentState
 import com.lukelorusso.moneydivider.scenes.base.view.LoadingState
 import com.lukelorusso.moneydivider.scenes.result.ResultFragment
-import com.lukelorusso.moneydivider.scenes.result.ResultViewModel
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_result_list.*
+import javax.inject.Inject
 
-class ResultListFragment : ResultFragment() {
+class ResultListFragment : ResultFragment(), ResultListView {
 
     companion object {
+        private const val EXTRA_TRANSACTION_LIST = "EXTRA_TRANSACTION_LIST"
+
         val TAG: String = ResultListFragment::class.java.simpleName
 
         fun newInstance(
@@ -28,13 +34,33 @@ class ResultListFragment : ResultFragment() {
         }
     }
 
+    @Inject
+    lateinit var gson: Gson
+
+    @Inject
+    lateinit var presenter: ResultListPresenter
+
+    // Properties
+    private val transactionList by lazy {
+        arguments?.getString(EXTRA_TRANSACTION_LIST)?.let { gson.fromJson<List<Transaction>>(it) }
+    }
+
     // View
-    private val adapter by lazy {
-        ResultListAdapter(
-            getString(R.string.result_list_pointer_pattern),
-            getString(R.string.result_give_suffix),
-            getString(R.string.result_take_suffix)
-        )
+    private val adapter by lazy { ResultListAdapter() }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activityComponent.inject(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.attach(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        presenter.detach()
     }
 
     override fun onCreateView(
@@ -44,8 +70,24 @@ class ResultListFragment : ResultFragment() {
     ): View? =
         inflater.inflate(R.layout.fragment_result_list, container, false)
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+    }
+
+    //region intent
+    override fun intentLoadData(): Observable<GetHistory.Param> = adapter.intentItemLoad.map {
+        GetHistory.Param(
+            it,
+            transactionList ?: emptyList(),
+            getString(R.string.result_give_suffix),
+            getString(R.string.result_take_suffix)
+        )
+    }
+    //endregion
+
     //region RENDER
-    override fun render(viewModel: ResultViewModel) {
+    override fun render(viewModel: ResultListViewModel) {
         activity?.runOnUiThread {
             TimberWrapper.d { "render: $viewModel" }
 
@@ -54,14 +96,46 @@ class ResultListFragment : ResultFragment() {
             showContent(recyclerViewResult, viewModel.contentState == ContentState.CONTENT)
             showError(viewModel.contentState == ContentState.ERROR)
 
-            renderData(viewModel.participantSituationMap, viewModel.balance)
+            renderData(viewModel.messageSender, viewModel.historyLog, viewModel.situation)
             renderSnack(viewModel.snackMessage)
         }
     }
     //endregion
 
     //region PRIVATE
-    private fun renderData(participantSituationMap: Map<String, Double>?, balance: List<String>?) {
+    private fun renderData(
+        messageSender: String?,
+        historyLog: List<String>?,
+        situation: Double?
+    ) {
+        messageSender?.also { sender ->
+            historyLog?.also { history ->
+                situation?.also { value ->
+                    val historyFormatted = history.joinToString("\n") { line ->
+                        String.format(
+                            getString(R.string.result_list_pointer_pattern),
+                            line.substring(9, line.length)
+                        )
+                    }
+                    adapter.historyMap[sender] = historyFormatted
+
+                    val valueAsString = value.toIntlNumberBigDecimal().let {
+                        "= $it (${when (it.signum()) { // -1, 0, or 1 as the value of this BigDecimal is negative, zero, or positive.
+                            1 -> getString(R.string.result_give_suffix)
+                            -1 -> getString(R.string.result_take_suffix)
+                            else -> ""
+                        }})"
+                    }
+                    adapter.situationMap[sender] = valueAsString
+
+                    val position = adapter.data.indexOf(sender)
+                    adapter.notifyItemChanged(position)
+                }
+            }
+        }
+    }
+
+    override fun initView() {
         recyclerViewResult.adapter = adapter
         transactionList?.also { list ->
             val participantList = mutableListOf<String>()
@@ -69,7 +143,6 @@ class ResultListFragment : ResultFragment() {
                 participantList.add(transaction.sender)
                 participantList.addAll(transaction.participantNameList)
             }
-            adapter.transactionList = list
             adapter.data = participantList.distinct()
         }
     }

@@ -7,4 +7,6 @@
     <color name="secondary_text">#696868</color>
     <color name="black_half_transparent">#88000000</color>
     <color name="white_85p_transparent">#D9FFFFFF</color>
+    <color name="background_evens">#1000</color>
+    <color name="background_odds">#0000</color>
 </resources>
