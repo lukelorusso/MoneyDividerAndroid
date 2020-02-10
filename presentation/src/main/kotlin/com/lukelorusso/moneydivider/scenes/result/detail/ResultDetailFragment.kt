@@ -10,7 +10,6 @@ import com.lukelorusso.domain.model.Transaction
 import com.lukelorusso.domain.usecases.GetHistory
 import com.lukelorusso.moneydivider.R
 import com.lukelorusso.moneydivider.extensions.build
-import com.lukelorusso.moneydivider.extensions.fromJson
 import com.lukelorusso.moneydivider.extensions.toIntlNumberBigDecimal
 import com.lukelorusso.moneydivider.scenes.base.view.ContentState
 import com.lukelorusso.moneydivider.scenes.base.view.LoadingState
@@ -22,8 +21,6 @@ import javax.inject.Inject
 class ResultDetailFragment : ResultFragment(), ResultDetailView {
 
     companion object {
-        private const val EXTRA_TRANSACTION_LIST = "EXTRA_TRANSACTION_LIST"
-
         val TAG: String = ResultDetailFragment::class.java.simpleName
 
         fun newInstance(
@@ -35,15 +32,7 @@ class ResultDetailFragment : ResultFragment(), ResultDetailView {
     }
 
     @Inject
-    lateinit var gson: Gson
-
-    @Inject
     lateinit var presenter: ResultDetailPresenter
-
-    // Properties
-    private val transactionList by lazy {
-        arguments?.getString(EXTRA_TRANSACTION_LIST)?.let { gson.fromJson<List<Transaction>>(it) }
-    }
 
     // View
     private val adapter by lazy { ResultDetailAdapter() }
@@ -69,11 +58,6 @@ class ResultDetailFragment : ResultFragment(), ResultDetailView {
         savedInstanceState: Bundle?
     ): View? =
         inflater.inflate(R.layout.fragment_result_list, container, false)
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
-    }
 
     //region intent
     override fun intentLoadData(): Observable<GetHistory.Param> = adapter.intentItemLoad.map {

@@ -3,7 +3,8 @@
     <string name="error_view_retry">"Riprova"</string>
     <string name="error_generic">"È avvenuto un errore"</string>
     <string name="error_parsing">"Impossibile analizzare questo input (alla riga %s)"</string>
-    <string name="put_your_data">"<i>Incolla le spese!</i>\n$importo $persona $descrizione_opzionale"</string>
+    <string name="put_your_data">"<i>Incolla le spese!</i>"</string>
+    <string name="put_your_data_hint">"$importo $persona $descrizione_opzionale"</string>
     <string name="home_input_hint">"qui le spese…"</string>
     <string name="divide">"Dividi"</string>
     <string name="result">"Risultato"</string>

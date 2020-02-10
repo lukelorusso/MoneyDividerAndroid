@@ -1,14 +1,17 @@
 package com.lukelorusso.moneydivider.scenes.home
 
 import android.os.Bundle
+import android.view.View
 import com.jakewharton.rxbinding3.view.clicks
 import com.lukelorusso.data.helper.TimberWrapper
 import com.lukelorusso.domain.model.Transaction
 import com.lukelorusso.domain.usecases.ParseTransactionList
 import com.lukelorusso.moneydivider.R
+import com.lukelorusso.moneydivider.extensions.onTextChanged
 import com.lukelorusso.moneydivider.scenes.base.view.ABaseDataActivity
 import com.lukelorusso.moneydivider.scenes.base.view.ContentState
 import com.lukelorusso.moneydivider.scenes.base.view.LoadingState
+import com.lukelorusso.moneydivider.scenes.home.help.HelpBottomDialogFragment
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_home.*
@@ -27,6 +30,7 @@ class HomeActivity : ABaseDataActivity(), HomeView {
         setContentView(R.layout.activity_home)
         activityComponent.inject(this)
         setSupportActionBar(toolbar)
+        initView()
     }
 
     override fun onResume() {
@@ -40,7 +44,7 @@ class HomeActivity : ABaseDataActivity(), HomeView {
     }
 
     //region intent
-    override fun intentParseInput(): Observable<ParseTransactionList.Param> = mainBtnSubmit
+    override fun intentParseInput(): Observable<ParseTransactionList.Param> = mainSubmitBtn
         .clicks()
         .map {
             ParseTransactionList.Param(
@@ -68,18 +72,32 @@ class HomeActivity : ABaseDataActivity(), HomeView {
     }
 
     override fun showLoading(visible: Boolean) {
-        mainBtnSubmit.isEnabled = !visible
+        mainSubmitBtn.isEnabled = !visible
     }
     //endregion
 
     //region PRIVATE
+    private fun inputList(): List<String> = mainTextInput.text.toString().split("\n")
+
+    private fun initView() {
+        mainHelpBtn.setOnClickListener {
+            HelpBottomDialogFragment.newInstance()
+                .show(supportFragmentManager, HelpBottomDialogFragment.TAG)
+        }
+        mainClearBtn.setOnClickListener {
+            mainTextInput.text = null
+        }
+        mainTextInput.onTextChanged { text ->
+            mainClearBtn.visibility = if (text.isEmpty()) View.GONE
+            else View.VISIBLE
+        }
+    }
+
     private fun renderData(transactionList: List<Transaction>?) {
         transactionList?.also { data ->
             intentGotoResult.onNext(data)
         }
     }
-
-    private fun inputList(): List<String> = mainTextInput.text.toString().split("\n")
     //endregion
 
 }

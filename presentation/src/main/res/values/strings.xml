@@ -3,7 +3,8 @@
     <string name="error_view_retry">Retry</string>
     <string name="error_generic">"An error occurred"</string>
     <string name="error_parsing">"Cannot parse this input (at line %s)"</string>
-    <string name="put_your_data">"<i>Put your resume!</i>\n$amount $person $description_optional"</string>
+    <string name="put_your_data">"<i>Put your resume!</i>"</string>
+    <string name="put_your_data_hint">"$amount $person $description_optional"</string>
     <string name="home_input_hint">"expenses here…"</string>
     <string name="divide">"Divide"</string>
     <string name="result">"Result"</string>

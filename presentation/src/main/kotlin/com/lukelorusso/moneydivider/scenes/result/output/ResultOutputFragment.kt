@@ -11,7 +11,10 @@ import com.lukelorusso.domain.model.Constant
 import com.lukelorusso.domain.model.Transaction
 import com.lukelorusso.domain.usecases.GetBalance
 import com.lukelorusso.moneydivider.R
-import com.lukelorusso.moneydivider.extensions.*
+import com.lukelorusso.moneydivider.extensions.build
+import com.lukelorusso.moneydivider.extensions.getTotalMap
+import com.lukelorusso.moneydivider.extensions.toIntlNumberBigDecimal
+import com.lukelorusso.moneydivider.extensions.toIntlNumberString
 import com.lukelorusso.moneydivider.scenes.base.view.ContentState
 import com.lukelorusso.moneydivider.scenes.base.view.LoadingState
 import com.lukelorusso.moneydivider.scenes.result.ResultFragment
@@ -23,8 +26,6 @@ import javax.inject.Inject
 class ResultOutputFragment : ResultFragment(), ResultOutputView {
 
     companion object {
-        private const val EXTRA_TRANSACTION_LIST = "EXTRA_TRANSACTION_LIST"
-
         val TAG: String = ResultOutputFragment::class.java.simpleName
 
         fun newInstance(
@@ -36,18 +37,10 @@ class ResultOutputFragment : ResultFragment(), ResultOutputView {
     }
 
     @Inject
-    lateinit var gson: Gson
-
-    @Inject
     lateinit var presenter: ResultOutputPresenter
 
     // Intents
     private val intentLoadData = PublishSubject.create<GetBalance.Param>()
-
-    // Properties
-    private val transactionList by lazy {
-        arguments?.getString(EXTRA_TRANSACTION_LIST)?.let { gson.fromJson<List<Transaction>>(it) }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,11 +63,6 @@ class ResultOutputFragment : ResultFragment(), ResultOutputView {
         savedInstanceState: Bundle?
     ): View? =
         inflater.inflate(R.layout.fragment_result_output, container, false)
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
-    }
 
     //region intent
     override fun intentLoadData(): Observable<GetBalance.Param> = intentLoadData

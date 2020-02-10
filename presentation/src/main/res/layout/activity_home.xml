@@ -34,29 +34,45 @@
             tools:context=".scenes.home.HomeActivity">
 
             <TextView
+                android:id="@+id/mainHelpBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_help"
                 android:padding="10dp"
                 android:text="@string/put_your_data"
                 android:textColor="@color/primary_text"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
-            <EditText
-                android:id="@+id/mainTextInput"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:fontFamily="@font/inconsolata"
-                android:gravity="top|start"
-                android:hint="@string/home_input_hint"
-                android:inputType="textMultiLine"
-                android:scrollbars="none"
-                android:textColor="@color/primary_text"
-                android:textSize="18sp"
-                tools:ignore="Autofill, LabelFor" />
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/mainTextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:fontFamily="@font/inconsolata"
+                    android:hint="@string/home_input_hint"
+                    android:inputType="textMultiLine"
+                    android:scrollbars="none"
+                    android:textColor="@color/primary_text"
+                    android:textSize="18sp"
+                    tools:ignore="Autofill, LabelFor" />
+
+                <ImageView
+                    android:id="@+id/mainClearBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_clear"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
 
             <Button
-                android:id="@+id/mainBtnSubmit"
+                android:id="@+id/mainSubmitBtn"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
