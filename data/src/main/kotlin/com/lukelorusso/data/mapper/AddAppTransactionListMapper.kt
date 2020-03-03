@@ -44,6 +44,8 @@ class AddAppTransactionListMapper
         val parsedInputList = mutableListOf<String>()
 
         inputList.forEachIndexed { i, line ->
+            if (line.isBlank()) return@forEachIndexed // will skip if blank line
+
             try {
                 var remaining = line.replace(Constant.RegExp.WHITE_SPACES, " ")
 
